@@ -1,4 +1,6 @@
-import { getAllContacts, getContactById } from '../services/contacts';
+import { getAllContacts, getContactById } from '../services/contacts.js';
+
+import createHttpError from 'http-errors';
 
 export const getContactsController = async (req, res) => {
   const contacts = await getAllContacts();
@@ -15,10 +17,7 @@ export const getContactByIdController = async (req, res) => {
 
   // Відповідь, якщо контакт не знайдено
   if (!contact) {
-    res.status(404).json({
-      message: 'Contact not found',
-    });
-    return;
+    throw createHttpError(404, 'Student not found');
   }
 
   // Відповідь, якщо контакт знайдено
