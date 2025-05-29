@@ -15,11 +15,13 @@ export const registerUserController = async (req, res) => {
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
 
+  console.log(session);
+
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
-  res.cookie('sessionİd', session._id, {
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
@@ -34,11 +36,11 @@ export const loginUserController = async (req, res) => {
 };
 
 export const logoutUserController = async (req, res) => {
-  if (req.cookies.sessionİd) {
-    await logoutUser(req.cookies.sessionİd);
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId);
   }
 
-  res.clearCookie('sessionİd');
+  res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
 
   res.status(204).send();
@@ -49,7 +51,7 @@ const setupSession = (res, session) => {
     httpOnly: true,
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
-  res.cookie('sessionİd', session._id, {
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
@@ -57,7 +59,7 @@ const setupSession = (res, session) => {
 
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
-    sessionİd: req.cookies.sessionİd,
+    sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
   });
 
