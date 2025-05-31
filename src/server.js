@@ -26,13 +26,13 @@ export const setupServer = () => {
     }),
   );
 
+  app.use(router);
+
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello world!',
     });
   });
-
-  app.use(router);
 
   app.use(notFoundHandler);
 
