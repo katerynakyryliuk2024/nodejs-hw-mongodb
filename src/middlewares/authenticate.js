@@ -42,7 +42,7 @@ export const authenticate = async (req, res, next) => {
     return;
   }
 
-  req.user = user;
+  req.user = { id: user._id, name: user.name };
 
   next();
 };
