@@ -19,7 +19,7 @@ export const getContactsController = async (req, res) => {
     perPage,
     sortBy,
     sortOrder,
-    ownerId: req.user.id,
+    userId: req.user.id,
   });
 
   res.status(200).json({
