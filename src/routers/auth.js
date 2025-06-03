@@ -9,6 +9,8 @@ import { logoutUserController } from '../controllers/auth.js';
 import { refreshUserSessionController } from '../controllers/auth.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { getContactsController } from '../controllers/contacts.controller.js';
+import { requestResetEmailSchema } from '../validation/auth.js';
+import { requestResetEmailController } from '../controllers/auth.js';
 
 const router = Router();
 
@@ -31,5 +33,11 @@ router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
+
+router.post(
+  '/request-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
 
 export default router;
