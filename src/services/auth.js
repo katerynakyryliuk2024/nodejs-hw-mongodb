@@ -4,6 +4,9 @@ import { randomBytes } from 'crypto';
 
 import { UsersCollection } from '../db/models/user.js';
 import { SessionsCollection } from '../db/models/session.js';
+import { sendEmail } from '../utils/sendMail.js';
+import jwt from 'jsonwebtoken';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -98,4 +101,18 @@ export const requestResetToken = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    getEnvVar('JWT_SECRET'),
+    { expiresIn: '15m' },
+  );
+
+  await sendEmail(
+    user.email,
+    'Reset password',
+    `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+  );
 };
