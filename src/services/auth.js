@@ -110,9 +110,10 @@ export const requestResetToken = async (email) => {
     { expiresIn: '15m' },
   );
 
-  await sendEmail(
-    user.email,
-    'Reset password',
-    `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
-  );
+  await sendEmail({
+    from: getEnvVar('SMTP_FROM'),
+    to: email,
+    subject: 'Reset password',
+    html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+  });
 };
