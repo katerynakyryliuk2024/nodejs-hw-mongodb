@@ -21,6 +21,7 @@ export const getContactsController = async (req, res) => {
     sortOrder,
     userId: req.user.id,
   });
+  console.log(contacts);
 
   res.status(200).json({
     status: 200,
@@ -31,7 +32,7 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(req.user.id);
+  const contact = await getContactById(contactId);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
@@ -80,7 +81,7 @@ export const deleteContactController = async (req, res) => {
     throw createHttpError(404, 'Contact not found');
   }
   res.json({
-    status: 200,
+    status: 204,
     message: 'Successfully deleted a contact!',
     data: result,
   });
