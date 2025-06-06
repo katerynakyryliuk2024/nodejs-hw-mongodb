@@ -136,7 +136,9 @@ export const resetPassword = async (password, token) => {
   try {
     const decoded = jwt.verify(token, getEnvVar('JWT_SECRET'));
 
-    const user = await UsersCollection.findById(decoded.sub);
+    console.log(decoded);
+
+    const user = await UsersCollection.findById({ _id: decoded.sub });
 
     if (!user) {
       throw createHttpError(404, 'User not found');
@@ -144,7 +146,10 @@ export const resetPassword = async (password, token) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await UsersCollection.findByIdAndUpdate(user._id, { hashedPassword });
+    await UsersCollection.updateOne(
+      { _id: user._id },
+      { password: hashedPassword },
+    );
   } catch (err) {
     if (err.name === 'JsonWebTokenError')
       throw createHttpError(401, 'Token is unauthorizad.');
