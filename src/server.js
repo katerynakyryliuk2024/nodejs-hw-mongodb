@@ -7,11 +7,14 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
+import path from 'node:path';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const setupServer = () => {
   const app = express();
+
+  app.use('/photos', express.static(path.resolve('src', 'uploads', 'photos')));
 
   app.use(cors());
 
