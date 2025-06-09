@@ -74,14 +74,14 @@ export const patchContactController = async (req, res) => {
   //   path.resolve('src', 'uploads', 'photos', req.file.filename),
   // );
   const { contactId } = req.params;
-  const photo = req.file;
+  const photo = req.file.filename;
 
   let photoUrl;
 
   if (photo) {
     photoUrl = await fs.rename(
       req.file.path,
-      path.resolve('src', 'uploads', 'photos', req.file.filename),
+      path.resolve('src', 'uploads', 'photos', photo),
     );
   }
 
