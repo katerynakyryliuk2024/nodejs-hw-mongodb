@@ -11,6 +11,7 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -47,10 +48,13 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-  await fs.rename(
-    req.file.path,
-    path.resolve('src', 'uploads', 'photos', req.file.filename),
-  );
+  // await fs.rename(
+  //   req.file.path,
+  //   path.resolve('src', 'uploads', 'photos', req.file.filename),
+  // );
+
+  const result = await uploadToCloudinary(req.file.path);
+  console.log(result);
 
   const contact = await createContact({
     ...req.body,
