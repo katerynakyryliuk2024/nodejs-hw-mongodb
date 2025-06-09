@@ -11,7 +11,9 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
-//import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+//import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -48,13 +50,13 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-  await fs.rename(
-    req.file.path,
-    path.resolve('src', 'uploads', 'photos', req.file.filename),
-  );
+  // await fs.rename(
+  //   req.file.path,
+  //   path.resolve('src', 'uploads', 'photos', req.file.filename),
+  // );
+  const result = await saveFileToCloudinary(req.file.path);
 
-  //  const result = await uploadToCloudinary(req.file.path);
-  //  console.log(result);
+  console.log(result);
 
   const contact = await createContact({
     ...req.body,
@@ -69,20 +71,13 @@ export const createContactController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res) => {
-  // await fs.rename(
-  //   req.file.path,
-  //   path.resolve('src', 'uploads', 'photos', req.file.filename),
-  // );
   const { contactId } = req.params;
-  const photo = req.file.filename;
+  const photo = req.file;
 
   let photoUrl;
 
   if (photo) {
-    photoUrl = await fs.rename(
-      req.file.path,
-      path.resolve('src', 'uploads', 'photos', photo),
-    );
+    photoUrl = await saveFileToUploadDir(photo);
   }
 
   const result = await updateContact(
