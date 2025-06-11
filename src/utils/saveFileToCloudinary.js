@@ -5,8 +5,8 @@ import fs from 'node:fs/promises';
 cloudinary.v2.config({
   secure: true,
   cloud_name: getEnvVar('CLOUDINARY_CLOUD_NAME'),
-  api_key: getEnvVar('CLOUDINARY_API_SECRET'),
-  api_secret: getEnvVar('CLOUDINARY_API_KEY'),
+  api_key: getEnvVar('CLOUDINARY_API_KEY'),
+  api_secret: getEnvVar('CLOUDINARY_API_SECRET'),
 });
 
 // export function uploadToCloudinary(filePath) {
