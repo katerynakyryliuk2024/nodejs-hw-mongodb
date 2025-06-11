@@ -33,7 +33,7 @@ export const updateContactSchema = Joi.object({
   name: Joi.string().min(3).max(20),
   email: Joi.string()
     .min(3)
-    .max(20)
+    .max(30)
     .email({
       minDomainSegments: 2,
       tlds: { allow: ['com', 'net'] },
