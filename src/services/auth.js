@@ -10,6 +10,10 @@ import { getEnvVar } from '../utils/getEnvVar.js';
 import * as fs from 'node:fs';
 import path from 'node:path';
 import Handlebars from 'handlebars';
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from '../utils/googleOAuth2.js';
 
 const RESET_PASSWORD_TEMPLATE = fs.readFileSync(
   path.resolve('src', 'templates', 'reset-password-email.html'),
@@ -158,4 +162,33 @@ export const resetPassword = async (password, token) => {
     }
     throw err;
   }
+};
+
+export const loginOrSingupWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+
+  if (!payload) {
+    throw createHttpError(401);
+  }
+
+  let user = await UsersCollection.findOne({
+    email: payload.email,
+  });
+
+  if (!user) {
+    const password = await bcrypt.hash(randomBytes(10), 10);
+    user = await UsersCollection.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+    });
+  }
+
+  const newSession = createSession();
+
+  return await SessionsCollection.create({
+    userId: user._id,
+    ...newSession,
+  });
 };
