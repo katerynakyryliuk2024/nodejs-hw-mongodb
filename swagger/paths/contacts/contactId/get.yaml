@@ -5,3 +5,12 @@ tags:
    description: 'Get student by id'
    security:
     - bearerAuth: []
+   parameters:
+    - in: paths 
+      name: id 
+      required: true
+      schema:
+        type: string
+        example: '65ca67e7ae7f10c88b598384'
+
+
