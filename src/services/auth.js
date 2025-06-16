@@ -176,7 +176,6 @@ export const loginOrSignupWithGoogle = async (code) => {
       email: payload.email,
       name: getFullNameFromGoogleTokenPayload(payload),
       password,
-      role: 'parent',
     });
   }
 
