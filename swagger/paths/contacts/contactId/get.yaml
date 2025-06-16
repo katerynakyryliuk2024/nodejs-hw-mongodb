@@ -1,0 +1,7 @@
+tags:
+  - Contacts
+   summary: Get contact by id
+   operationId: getContact
+   description: 'Get student by id'
+   security:
+    - bearerAuth: []

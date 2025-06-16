@@ -12,13 +12,13 @@ tags:
   - name: Contacts
     description: Operations with contacts
 
+servers:
+  - url: http://127.0.0.1:3000
+
 paths:
   /contacts/contactId:
     get:
-      $ref: '../swagger/paths/contacts/contactId/get.yaml'
-
-servers:
-  - url: http://127.0.0.1:3000
+      $ref: ../swagger/paths/contacts/contactId/get.yaml
 
 components:
   securitySchemes:
