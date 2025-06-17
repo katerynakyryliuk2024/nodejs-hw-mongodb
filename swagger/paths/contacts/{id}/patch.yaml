@@ -1,0 +1,57 @@
+tags:
+  - Contacts
+summary: Patch contact by id
+operationId: patchContact
+description: 'Change contact by id'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            description: 'Contact name'
+            type: string
+            example: 'Sergiy Jadan'
+          phoneNumber:
+            description: 'Contact phoneNumber'
+            type: string
+            example: '+380678952563'
+          email:
+            description: 'Contact email'
+            type: string
+            example: 'sjadan@gmail.com'
+          contactType:
+            description: "Contact's contactType"
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: work
+          isFavourite:
+            description: "Contact's favourite type"
+            type: boolean
+            example: true
+          photo:
+            description: "Link to contact's photo"
+            type: string
+            example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+responses:
+  '200':
+    description: 'Successfully patched a contact!'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
