@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import path from 'node:path';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -15,6 +16,7 @@ export const setupServer = () => {
   const app = express();
 
   app.use('/photos', express.static(path.resolve('src', 'uploads', 'photos')));
+  app.use('/api-docs', swaggerDocs());
 
   app.use(cors());
 
