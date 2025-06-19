@@ -209,6 +209,7 @@
                   "photo": {
                     "description": "Link to contact's photo",
                     "type": "string",
+                    "format": "binary",
                     "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
                   }
                 }
@@ -495,28 +496,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Successfully deleted a contact!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 204
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully deleted a contact!"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Successfully deleted a contact!"
           },
           "401": {
             "$ref": "#/components/responses/401"
